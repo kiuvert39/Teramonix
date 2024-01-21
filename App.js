@@ -25,7 +25,6 @@ export default function App() {
     catch(error){
       console.error('Error in useEffect:', error);
     }
-  
     // AsyncStorage.removeItem('isAppFirstLaunched');
   }, []);
 

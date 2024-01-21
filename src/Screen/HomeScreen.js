@@ -1,28 +1,37 @@
 import React,{useState} from 'react';
-import {SafeAreaView, ActivityIndicator, StyleSheet} from 'react-native';
+import {SafeAreaView, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
 import WebView from 'react-native-webview';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 
 const HomeScreen = () => {
 
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loader, setloader] = useState(false)
+
+  const hight = Dimensions.get('screen').height
+  const width = Dimensions.get('screen').width
+  const handleWebViewMessage = event => {
+
+    const messageFromWebView = event.nativeEvent.data;
+
+    console.log('Message from WebView:', messageFromWebView);
+  };
+
 
 
   const handleOnLoadProgress = ({ nativeEvent }) => {
   
     setLoadingProgress(nativeEvent.progress);
     console.log(nativeEvent.progress);
+    onMessage={handleWebViewMessage}
 
   };
 
   return (
     <>
-     {loadingProgress < 1 ? (
-        <ActivityIndicator
-        size="large"
-        color="#0000ff"
-        style={styles.activityIndicator} />
-      ) : null}
+     
 
         <WebView
           style={{flex: 1,
@@ -31,7 +40,30 @@ const HomeScreen = () => {
           marginTop:23}}
           source={{uri: 'https://myaccount.teramonix.com/dashboard'}}
           onLoadProgress={handleOnLoadProgress}
+          onMessage={handleWebViewMessage}
+          onLoadStart={() => setloader(true)}
+          onLoadEnd={() =>setloader(false)}
         />
+  
+        {
+          loader && (
+            <Spinner
+                visible={loader}
+                customIndicator={<ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  style={{
+                       position: 'absolute',
+                       top: hight / 2,
+                       left: width / 2.2,
+                      }}
+                 />}
+                textContent={'Loading...'}
+                textStyle={styles.spinnerText}
+              />
+
+          )
+        }
     </>
    
   );
@@ -48,6 +80,11 @@ const styles = StyleSheet.create({
   },
   webView: {
     flex: 1,
+  },
+  blurView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

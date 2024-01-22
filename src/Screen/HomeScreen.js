@@ -1,7 +1,10 @@
 import React,{useState} from 'react';
-import {SafeAreaView, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import WebView from 'react-native-webview';
 import Spinner from 'react-native-loading-spinner-overlay';
+import NetInfo from '@react-native-community/netinfo';
+import SplashScreen from './SplashScreen';
+import NetworkTesting from '../component/NetworkTesting';
 
 
 
@@ -12,6 +15,14 @@ const HomeScreen = () => {
 
   const hight = Dimensions.get('screen').height
   const width = Dimensions.get('screen').width
+
+  NetInfo.addEventListener(state => {
+    console.log('Connection type', state.type);
+    console.log('Is connected?', state.isConnected);
+  });
+
+
+  
   const handleWebViewMessage = event => {
 
     const messageFromWebView = event.nativeEvent.data;
@@ -44,23 +55,23 @@ const HomeScreen = () => {
           onLoadStart={() => setloader(true)}
           onLoadEnd={() =>setloader(false)}
         />
-  
+        <NetworkTesting/>
         {
           loader && (
-            <Spinner
-                visible={loader}
-                customIndicator={<ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  style={{
-                       position: 'absolute',
-                       top: hight / 2,
-                       left: width / 2.2,
-                      }}
-                 />}
-                textContent={'Loading...'}
-                textStyle={styles.spinnerText}
-              />
+            
+             <Spinner
+              visible={loader}
+              customIndicator={<SplashScreen
+              size="large"
+              color="#fff"
+              style={{
+              position: 'absolute',
+              top: hight / 2,
+              left: width / 2.2,
+              }}
+           />}
+            textStyle={styles.spinnerText}
+            />
 
           )
         }

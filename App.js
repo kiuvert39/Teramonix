@@ -1,10 +1,10 @@
 import React,{useState, useEffect} from 'react';
-import { StyleSheet,} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import OnboardingScreen from './src/Screen/OnboardingScreen';
 import HomeScreen from './src/Screen/HomeScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -39,6 +39,7 @@ export default function App() {
             />
           )}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        
         </Stack.Navigator>
       </NavigationContainer>
     )

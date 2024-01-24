@@ -1,12 +1,12 @@
 // SplashScreen.js
 import React, { useEffect } from 'react';
-import { Video } from 'expo-av';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const SplashScreen = ({ navigation }) => {
+  
   useEffect(() => {
-    // Add any logic here to determine when to navigate to the next screen
+
     setTimeout(() => {
 
     }, 5000); // 5000 milliseconds = 5 seconds
